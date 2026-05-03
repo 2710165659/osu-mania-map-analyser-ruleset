@@ -1,0 +1,182 @@
+# =========================
+# OS / file explorer junk
+# =========================
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.Spotlight-V100/
+.Trashes/
+.fseventsd/
+
+# =========================
+# Editor / IDE metadata
+# =========================
+.vs/
+.vscode/
+.vscode-test/
+.idea/
+.history/
+.localhistory/
+*.code-workspace
+*.suo
+*.user
+*.userosscache
+*.rsuser
+*.userprefs
+*.sln.docstates
+*.ncb
+*.opendb
+*.VC.db
+*.VC.opendb
+*.aps
+
+# Rider / ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+*.sln.iml
+
+# =========================
+# Logs, temp files, backups
+# =========================
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+*.swp
+*.swo
+*.pid
+*.seed
+*.stackdump
+log/
+logs/
+tmp/
+temp/
+mono_crash.*
+
+# =========================
+# .NET / C# build outputs
+# =========================
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+out/
+artifacts/
+publish/
+Generated Files/
+[Ff]akesAssemblies/
+BenchmarkDotNet.Artifacts/
+
+# Test results / coverage
+[Tt]est[Rr]esults/
+[Tt]est[Rr]esult*/
+coverage/
+coverage-*/
+*.coverage
+*.coveragexml
+*.trx
+
+# NuGet restore / packages
+packages/
+.nuget/packages/
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+
+# App packaging
+AppPackages/
+BundleArtifacts/
+Package.StoreAssociation.xml
+_pkginfo.txt
+*.appx
+*.appxbundle
+*.appxupload
+*.msix
+*.msixbundle
+*.msixupload
+
+# Local databases / profiling
+*.mdf
+*.ldf
+*.ndf
+*.dbmdl
+*.psess
+*.vsp
+*.vspx
+
+# =========================
+# JavaScript / Node tooling
+# =========================
+node_modules/
+.npm/
+.pnpm-store/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+.cache/
+.cache-loader/
+.pnp/
+.pnp.js
+.pnp.cjs
+.yarn/*
+!.yarn/patches/
+!.yarn/plugins/
+!.yarn/releases/
+!.yarn/sdks/
+!.yarn/versions/
+.next/
+.nuxt/
+.svelte-kit/
+dist/
+dist-ssr/
+vite.svg
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# =========================
+# Native / external repo build caches
+# Useful for vendored code under external_repos/
+# =========================
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+compile_commands.json
+Testing/
+target/
+
+# =========================
+# Local env / secrets
+# =========================
+.env
+.env.*
+!.env.example
+!.env.*.example
+!.env.sample
+!.env.*.sample
+secrets.json
+appsettings.Local.json
+appsettings.*.local.json
+
+# Cloud / deployment local state
+.azure/
+.aws-sam/
+.serverless/

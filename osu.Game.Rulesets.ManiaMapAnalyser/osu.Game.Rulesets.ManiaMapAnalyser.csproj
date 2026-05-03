@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Label="Project">
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyTitle>osu.Game.Rulesets.ManiaMapAnalyser</AssemblyTitle>
+    <OutputType>Library</OutputType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RootNamespace>osu.Game.Rulesets.ManiaMapAnalyser</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\osu\osu.Game\osu.Game.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.20.1" />
+    <PackageReference Include="Wasmtime" Version="34.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\minaclac-72.3.wasm">
+      <LogicalName>OsuManiaMapAnalyser.Core.Assets.minaclac-72.3.wasm</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Assets\minaclac-74.0.wasm">
+      <LogicalName>OsuManiaMapAnalyser.Core.Assets.minaclac-74.0.wasm</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Assets\dan_model.onnx">
+      <LogicalName>OsuManiaMapAnalyser.Core.Assets.dan_model.onnx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Assets\intervals.js">
+      <LogicalName>OsuManiaMapAnalyser.Core.Assets.intervals.js</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
