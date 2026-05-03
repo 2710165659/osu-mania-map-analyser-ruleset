@@ -9,7 +9,11 @@
 ![设置页](img1.png)
 ![效果](img2.png)
 
-## 文件夹说明
+## 安装
+
+右侧Release下载文件，将下载的dll文件放到rulesets目录下
+
+## 项目
 
 - osu.Game.Rulesets.ManiaMapAnalyser：改造后的规则集代码
 - osumania_map_analyser：https://github.com/LeoBlackMT/osumania_map_analyser 原始项目，v1.4.2
