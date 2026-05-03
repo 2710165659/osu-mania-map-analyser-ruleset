@@ -1,0 +1,9 @@
+[submodule "osumania_map_analyser"]
+	path = osumania_map_analyser
+	url = https://github.com/LeoBlackMT/osumania_map_analyser.git
+[submodule "external_repos/companella"]
+	path = external_repos/companella
+	url = https://github.com/Leinadix/companella.git
+[submodule "external_repos/etterna"]
+	path = external_repos/etterna
+	url = https://github.com/etternagame/etterna.git
