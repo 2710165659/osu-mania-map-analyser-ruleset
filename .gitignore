@@ -164,6 +164,14 @@ Testing/
 target/
 
 # =========================
+# Local reference repositories
+# Not project dependencies; keep them local and untracked.
+# =========================
+/osumania_map_analyser/
+/external_repos/companella/
+/external_repos/etterna/
+
+# =========================
 # Local env / secrets
 # =========================
 .env
