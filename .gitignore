@@ -188,3 +188,5 @@ appsettings.*.local.json
 .azure/
 .aws-sam/
 .serverless/
+.reasonix/
+test_harness/

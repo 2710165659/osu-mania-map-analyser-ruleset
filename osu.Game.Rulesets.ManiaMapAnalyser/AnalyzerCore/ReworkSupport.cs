@@ -162,6 +162,43 @@ internal static class ReworkSupport
         return boundaries;
     }
 
+    public static double? RcLabelToNumeric(string label)
+    {
+        if (string.IsNullOrWhiteSpace(label)) return null;
+        var text = label.Trim();
+        var lower = text.ToLowerInvariant();
+
+        // Parse tier adjustment
+        double tierAdj = 0;
+        if (lower.Contains("mid/high") || lower.Contains("midhigh")) tierAdj = 0.2;
+        else if (lower.Contains("mid/low") || lower.Contains("midlow")) tierAdj = -0.2;
+        else if (lower.Contains("low")) tierAdj = -0.4;
+        else if (lower.Contains("high")) tierAdj = 0.4;
+        else if (lower.Contains("mid")) tierAdj = 0;
+
+        // Parse base
+        if (lower.Contains("intro"))
+        {
+            var m = Regex.Match(lower, @"intro\s*([123])");
+            if (m.Success) return int.Parse(m.Groups[1].Value) - 3 + tierAdj;
+        }
+        if (lower.Contains("reform") || lower.Contains("rework") || lower.Contains("regular"))
+        {
+            var m = Regex.Match(lower, @"(?:reform|rework|regular)\s*(\d+)");
+            if (m.Success) return int.Parse(m.Groups[1].Value) + tierAdj;
+        }
+        var greekMap = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["alpha"] = 11, ["beta"] = 12, ["gamma"] = 13, ["delta"] = 14,
+            ["epsilon"] = 15, ["zeta"] = 16, ["eta"] = 17, ["theta"] = 18,
+            ["iota"] = 19, ["kappa"] = 20,
+        };
+        foreach (var (greek, val) in greekMap)
+            if (lower.Contains(greek)) return val + tierAdj;
+
+        return null;
+    }
+
     private static Dictionary<string, List<IntervalEntry>> LoadIntervals()
     {
         var result = new Dictionary<string, List<IntervalEntry>>(StringComparer.Ordinal);

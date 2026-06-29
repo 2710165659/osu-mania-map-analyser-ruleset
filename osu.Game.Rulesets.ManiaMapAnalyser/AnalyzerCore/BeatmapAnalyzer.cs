@@ -40,7 +40,39 @@ public static class BeatmapAnalyzer
         var estimatorResult = RunMixedEstimator(rawChart, settings);
         if (!double.IsFinite(estimatorResult.Star))
         {
-            throw new InvalidOperationException("Estimator failed to produce a valid result.");
+            // Empty or unanalyzable beatmap — return Unknown silently
+            return new AnalyzeResponse
+            {
+                Metadata = new CardMetadataOutput
+                {
+                    Title = rawChart.Metadata.Title,
+                    TitleUnicode = rawChart.Metadata.TitleUnicode,
+                    Artist = rawChart.Metadata.Artist,
+                    ArtistUnicode = rawChart.Metadata.ArtistUnicode,
+                    Creator = rawChart.Metadata.Creator,
+                    Version = rawChart.Metadata.Version,
+                    StatusText = FormatMetadataStatus(rawChart.Metadata),
+                },
+                Beatmap = new CardBeatmapOutput
+                {
+                    ColumnCount = rawChart.ColumnCount,
+                    LnRatio = rawChart.LnRatio,
+                },
+                Card = new CardOutput
+                {
+                    ContentBar = DefaultContentBar,
+                    ModeTag = ModeTagFromLnRatio(rawChart.LnRatio),
+                    LeftCapsule = new CardCapsuleOutput { Mode = "ReworkSR", Value = 0, DisplayValue = "-", Unit = "SR" },
+                    Difficulty = new CardDifficultyOutput
+                    {
+                        Caption = "Estimate Difficulty",
+                        Text = "Unknown",
+                        RawText = "Unknown",
+                        NumericDifficulty = null,
+                        Vibro = false,
+                    },
+                },
+            };
         }
 
         var fallbackModeTag = ModeTagFromLnRatio(estimatorResult.LnRatio);
@@ -48,80 +80,20 @@ public static class BeatmapAnalyzer
         var resolvedNumericDifficulty = estimatorResult.NumericDifficulty;
         var resolvedNumericDifficultyHint = estimatorResult.NumericDifficultyHint;
 
-        IReadOnlyDictionary<string, double>? etternaValues = null;
-        var vibroDetected = false;
-        try
+        // Derive numeric from label if not already set (e.g. Mix maps without Companella)
+        if (!resolvedNumericDifficulty.HasValue && !string.IsNullOrWhiteSpace(resolvedDifficulty))
         {
-            etternaValues = AnalyzeEtterna(rawChart, settings.CvtFlag, settings.SpeedRate, DefaultEtternaVersion);
-            var vibroEligible = estimatorResult.Star > 5.0;
-            vibroDetected = DefaultVibroDetection
-                && vibroEligible
-                && DetectVibro(etternaValues, 0.95);
-        }
-        catch
-        {
-            etternaValues = null;
-            vibroDetected = false;
-        }
-
-        if (estimatorResult.ColumnCount == 4 && estimatorResult.MixedCompanellaPlan != null)
-        {
-            double? interludeOverall = null;
-            try
-            {
-                interludeOverall = InterludeCalculator.Calculate(rawChart.ApplyConversion(settings.CvtFlag), settings.SpeedRate);
-            }
-            catch
-            {
-                interludeOverall = null;
-            }
-
-            IReadOnlyDictionary<string, double>? companellaMsdValues = etternaValues;
-            if (!string.Equals(DefaultCompanellaEtternaVersion, DefaultEtternaVersion, StringComparison.Ordinal))
-            {
-                try
-                {
-                    companellaMsdValues = AnalyzeEtterna(
-                        rawChart,
-                        settings.CvtFlag,
-                        settings.SpeedRate,
-                        DefaultCompanellaEtternaVersion);
-                }
-                catch
-                {
-                    companellaMsdValues = etternaValues;
-                }
-            }
-
-            if (companellaMsdValues != null && interludeOverall.HasValue && double.IsFinite(interludeOverall.Value))
-            {
-                try
-                {
-                    var companellaResult = CompanellaClassifier.Classify(
-                        companellaMsdValues,
-                        interludeOverall.Value,
-                        estimatorResult.Star);
-
-                    estimatorResult = ApplyCompanellaToMixedResult(estimatorResult, companellaResult);
-                    resolvedDifficulty = estimatorResult.Difficulty;
-                    resolvedNumericDifficulty = estimatorResult.NumericDifficulty;
-                    resolvedNumericDifficultyHint = estimatorResult.NumericDifficultyHint;
-                }
-                catch
-                {
-                    // Keep the pre-Companella mixed result when classification inputs are unavailable.
-                }
-            }
+            var parts = resolvedDifficulty.Split("||", StringSplitOptions.None);
+            var rcPart = parts[0].Trim();
+            resolvedNumericDifficulty = ReworkSupport.RcLabelToNumeric(rcPart);
         }
 
         var leftCapsuleMode = ResolveShortCardSrMode(fallbackModeTag);
-        var (leftValue, leftDisplayValue, leftUnit) = ResolveLeftCapsule(leftCapsuleMode, estimatorResult, etternaValues);
+        var (leftValue, leftDisplayValue, leftUnit) = ResolveLeftCapsule(leftCapsuleMode, estimatorResult, null);
         var rawDifficultyText = string.IsNullOrWhiteSpace(resolvedDifficulty) ? "-" : resolvedDifficulty;
-        var visibleDifficultyText = vibroDetected && DefaultDiffText == "Difficulty"
-            ? "VIBRO"
-            : (GraphSupportedKeys.Contains(estimatorResult.ColumnCount)
+        var visibleDifficultyText = GraphSupportedKeys.Contains(estimatorResult.ColumnCount)
                 ? FormatDiffForDisplay(rawDifficultyText)
-                : "Unsupported Keys");
+                : "Unsupported Keys";
 
         return new AnalyzeResponse
         {
@@ -156,12 +128,11 @@ public static class BeatmapAnalyzer
                     Caption = BuildDifficultyCaption(
                         fallbackModeTag,
                         resolvedNumericDifficulty,
-                        resolvedNumericDifficultyHint,
-                        vibroDetected),
+                        resolvedNumericDifficultyHint),
                     Text = visibleDifficultyText,
                     RawText = rawDifficultyText,
                     NumericDifficulty = resolvedNumericDifficulty,
-                    Vibro = vibroDetected,
+                    Vibro = false,
                 },
             },
         };
@@ -182,6 +153,14 @@ public static class BeatmapAnalyzer
     public static string AnalyzeJsonToJson(string json, bool indented = true)
     {
         return JsonSerializer.Serialize(AnalyzeJson(json), CreateJsonOptions(indented));
+    }
+
+    public static Dictionary<string, double> DebugRoxyStructural(string osuText, double speedRate = 1.0)
+    {
+        var chart = BeatmapParser.Parse(osuText);
+        if (chart.Status != "OK")
+            throw new InvalidOperationException($"Beatmap parse failed: {chart.Status}");
+        return RoxyEstimator.DebugStructural(chart, speedRate);
     }
 
     private static JsonSerializerOptions CreateJsonOptions(bool indented)
@@ -305,10 +284,31 @@ public static class BeatmapAnalyzer
 
         if (mixedModeTag == "RC")
         {
-            if (!inEnabled)
+            // Try Roxy first (matching JS behavior), then fallback to Azusa → Daniel
+            var roxyResult = TryRunRoxyFallback(rawChart, settings, sunnyBaseline);
+            if (CanUseRcResult(roxyResult))
+            {
+                selectedRework = roxyResult!;
+                estDiff = roxyResult!.Difficulty;
+                numericDifficulty = roxyResult.NumericDifficulty;
+                numericDifficultyHint = roxyResult.NumericDifficultyHint;
+
+                if (!inEnabled)
+                {
+                    var azusaResult = TryRunAzusaFallback(rawChart, settings, sunnyBaseline);
+                    if (CanUseRcResult(azusaResult) && ShouldPreferAzusaRcResult(roxyResult, azusaResult))
+                    {
+                        selectedRework = azusaResult!;
+                        estDiff = azusaResult!.Difficulty;
+                        numericDifficulty = azusaResult.NumericDifficulty;
+                        numericDifficultyHint = azusaResult.NumericDifficultyHint;
+                    }
+                }
+            }
+            else if (!inEnabled)
             {
                 var azusaResult = TryRunAzusaFallback(rawChart, settings, sunnyBaseline);
-                if (CanUseAzusaResult(azusaResult))
+                if (CanUseRcResult(azusaResult))
                 {
                     selectedRework = azusaResult!;
                     estDiff = azusaResult!.Difficulty;
@@ -351,6 +351,8 @@ public static class BeatmapAnalyzer
                         LnRatio = lnRatio,
                         LnDifficulty = lnDifficulty,
                     };
+                    // Derive numeric from Sunny RC label as fallback for when Companella can't run
+                    rcNumericDifficulty = ReworkSupport.RcLabelToNumeric(rcDifficulty);
                 }
                 else
                 {
@@ -408,6 +410,53 @@ public static class BeatmapAnalyzer
             overrideMixedCompanellaPlan: true);
     }
 
+    private static EstimatorResult? TryRunRoxyFallback(BeatmapChart rawChart, NormalizedSettings settings, EstimatorResult sunnyBaseline)
+    {
+        try
+        {
+            return RoxyEstimator.Estimate(
+                rawChart,
+                settings.SpeedRate,
+                () => RunDanielEstimator(rawChart, settings),
+                sunnyOverride => RunSunnyEstimator(rawChart, settings, sunnyOverride));
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static bool CanUseRcResult(EstimatorResult? result)
+    {
+        if (result == null || result.ColumnCount != 4)
+        {
+            return false;
+        }
+
+        var estDiff = (result.Difficulty ?? string.Empty).Trim();
+        return estDiff.Length > 0
+            && !estDiff.StartsWith("Invalid", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool ShouldPreferAzusaRcResult(EstimatorResult roxyResult, EstimatorResult? azusaResult)
+    {
+        if (azusaResult == null || !CanUseRcResult(azusaResult))
+        {
+            return false;
+        }
+
+        var roxyNumeric = roxyResult.NumericDifficulty;
+        var azusaNumeric = azusaResult.NumericDifficulty;
+        if (!roxyNumeric.HasValue || !azusaNumeric.HasValue)
+        {
+            return false;
+        }
+
+        var delta = azusaNumeric.Value - roxyNumeric.Value;
+        // Simplified preference: prefer Azusa when it's significantly higher
+        return delta >= 0.25;
+    }
+
     private static EstimatorResult? TryRunDanielFallback(BeatmapChart rawChart, NormalizedSettings settings)
     {
         try
@@ -437,17 +486,6 @@ public static class BeatmapAnalyzer
         }
     }
 
-    private static bool CanUseAzusaResult(EstimatorResult? result)
-    {
-        if (result == null || result.ColumnCount != 4)
-        {
-            return false;
-        }
-
-        var estDiff = (result.Difficulty ?? string.Empty).Trim();
-        return estDiff.Length > 0
-            && !estDiff.StartsWith("Invalid", StringComparison.OrdinalIgnoreCase);
-    }
 
     private static (bool InEnabled, bool HoEnabled) ParseCvtFlags(string? value)
     {
@@ -479,11 +517,6 @@ public static class BeatmapAnalyzer
         return (parts[0], parts[0]);
     }
 
-    private static IReadOnlyDictionary<string, double> AnalyzeEtterna(BeatmapChart rawChart, string? cvtFlag, double speedRate, string version)
-    {
-        var chart = rawChart.ApplyConversion(cvtFlag);
-        return EtternaRuntime.Analyze(chart, speedRate, version);
-    }
 
     private static double ResolveOverallDifficulty(double originalOd, string? odFlag)
     {
@@ -567,20 +600,7 @@ public static class BeatmapAnalyzer
         EstimatorResult estimatorResult,
         IReadOnlyDictionary<string, double>? etternaValues)
     {
-        if (string.Equals(mode, "MSD", StringComparison.Ordinal))
-        {
-            var overall = TryGetMsdValue(etternaValues, "Overall");
-            if (overall.HasValue)
-            {
-                return (overall.Value, overall.Value.ToString("0.00", CultureInfo.InvariantCulture), "MSD");
-            }
-
-            return (
-                estimatorResult.Star,
-                estimatorResult.Star.ToString("0.00", CultureInfo.InvariantCulture),
-                "SR");
-        }
-
+        // MSD mode not supported without Etterna — always show ReworkSR
         return (
             estimatorResult.Star,
             estimatorResult.Star.ToString("0.00", CultureInfo.InvariantCulture),
@@ -613,11 +633,10 @@ public static class BeatmapAnalyzer
     private static string BuildDifficultyCaption(
         string modeTag,
         double? numericDifficulty,
-        string? numericDifficultyHint,
-        bool forceHideNumericDifficulty)
+        string? numericDifficultyHint)
     {
         const string baseCaption = "Estimate Difficulty";
-        if (!DefaultEnableNumericDifficulty || forceHideNumericDifficulty)
+        if (!DefaultEnableNumericDifficulty)
         {
             return baseCaption;
         }

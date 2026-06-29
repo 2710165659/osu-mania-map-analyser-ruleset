@@ -93,146 +93,98 @@ internal static class AzusaEstimator
         (18.1973, 18.1973, 17.2000),
         (18.2026, 18.2026, 17.2000),
         (18.4562, 19.3477, 17.9500),
+        (19.3477, 20.5000, 18.2000),
+        (20.5000, 22.0000, 18.6000),
+        (22.0000, 24.0000, 19.2000),
+        (24.0000, 27.0000, 20.0000),
     ];
 
     private static readonly (double X, double Y)[] AzusaIsotonicPoints =
     [
-        (1.2900, 1),
-        (1.2900, 1),
-        (1.3900, 1),
-        (1.3900, 1),
-        (1.4700, 1),
-        (1.4700, 1),
-        (1.9000, 2),
-        (1.9000, 2),
-        (2.0600, 2),
-        (2.2200, 2),
-        (2.3200, 2),
-        (2.3200, 2),
-        (2.5100, 3),
-        (2.5100, 3),
-        (2.9000, 3.3333333333333335),
-        (2.9800, 3.3333333333333335),
-        (4.0100, 4),
-        (4.0100, 4),
-        (4.5100, 4),
-        (4.5100, 4),
-        (4.8300, 4.2),
-        (4.8300, 4.2),
-        (4.9400, 5),
-        (4.9400, 5),
-        (5.0400, 5),
-        (5.0400, 5),
-        (5.2000, 5),
-        (5.2000, 5),
-        (5.2800, 5),
-        (5.2800, 5),
-        (5.3300, 5.666666666666667),
-        (5.5900, 5.666666666666667),
-        (5.7700, 6),
-        (5.7700, 6),
-        (5.8700, 6),
-        (5.8700, 6),
-        (5.8700, 6),
-        (5.8700, 6),
-        (6.0700, 6.6),
-        (6.0700, 6.6),
-        (6.3300, 6.733333333333333),
-        (6.9200, 6.733333333333333),
-        (7.1100, 7),
-        (7.1100, 7),
-        (7.4600, 8.3),
-        (8.0500, 8.3),
-        (8.2500, 8.333333333333334),
-        (8.4800, 8.333333333333334),
-        (9.3200, 9.183333333333334),
-        (9.6200, 9.183333333333334),
-        (9.6400, 9.5),
-        (9.7100, 9.5),
-        (9.9800, 10.325),
-        (10.1500, 10.325),
-        (10.3000, 10.37142857142857),
-        (10.9900, 10.37142857142857),
-        (11.0000, 10.9),
-        (11.0400, 10.9),
-        (11.0700, 11.22857142857143),
-        (11.3600, 11.22857142857143),
-        (11.4500, 11.866666666666667),
-        (11.7400, 11.866666666666667),
-        (11.9300, 12.0875),
-        (12.2000, 12.0875),
-        (12.2900, 12.466666666666667),
-        (12.5200, 12.466666666666667),
-        (12.5600, 12.5),
-        (12.6400, 12.5),
-        (12.7400, 12.56),
-        (12.9200, 12.56),
-        (12.9800, 12.6),
-        (12.9800, 12.6),
-        (12.9900, 12.7),
-        (12.9900, 12.7),
-        (13.0000, 13),
-        (13.0000, 13),
-        (13.0400, 13.266666666666667),
-        (13.2800, 13.266666666666667),
-        (13.2900, 13.533333333333333),
-        (13.3300, 13.533333333333333),
-        (13.3400, 13.55),
-        (13.3600, 13.55),
-        (13.4000, 13.62),
-        (13.5600, 13.62),
-        (13.7200, 13.8),
-        (13.7200, 13.8),
-        (13.9500, 14),
-        (13.9500, 14),
-        (14.0200, 14),
-        (14.0200, 14),
-        (14.0500, 14.05),
-        (14.2000, 14.05),
-        (14.2100, 14.199999999999998),
-        (14.3400, 14.199999999999998),
-        (14.3700, 14.266666666666666),
-        (14.3700, 14.266666666666666),
-        (14.4400, 14.4),
-        (14.4400, 14.4),
-        (14.4400, 14.4),
-        (14.4400, 14.4),
-        (14.4700, 14.5),
-        (14.4700, 14.5),
-        (14.5200, 14.674999999999999),
-        (14.6700, 14.674999999999999),
-        (14.8000, 14.825),
-        (14.9000, 14.825),
-        (14.9300, 15),
-        (15.1500, 15),
-        (15.3100, 15.2),
-        (15.3500, 15.2),
-        (15.3700, 15.666666666666666),
-        (15.5300, 15.666666666666666),
-        (15.5400, 15.675),
-        (15.7200, 15.675),
-        (15.7200, 15.8),
-        (15.7200, 15.8),
-        (15.7500, 15.9),
-        (15.7500, 15.9),
-        (15.7800, 16),
-        (16.0700, 16),
-        (16.0900, 16.266666666666666),
-        (16.1500, 16.266666666666666),
-        (16.3500, 16.4),
-        (16.3500, 16.4),
-        (16.3500, 16.4),
-        (16.3500, 16.4),
-        (16.4100, 16.4),
-        (16.5100, 16.4),
-        (16.5300, 16.533333333333335),
-        (16.6500, 16.533333333333335),
-        (17.5500, 17.2),
-        (17.5500, 17.2),
-        (17.6800, 17.2),
-        (17.6800, 17.2),
-        (17.9100, 17.95),
-        (18.0200, 17.95),
+        (1.3868, 1.0000),
+        (1.4574, 1.0000),
+        (1.5361, 1.0000),
+        (1.6320, 1.5000),
+        (1.9833, 2.5800),
+        (2.2465, 2.6000),
+        (2.3344, 2.8000),
+        (2.5779, 3.4500),
+        (3.8277, 3.6000),
+        (4.2824, 4.3429),
+        (4.5665, 4.6250),
+        (4.8016, 4.6750),
+        (4.9529, 5.1500),
+        (5.1029, 5.4000),
+        (5.2475, 5.4750),
+        (5.5039, 5.9000),
+        (5.6951, 6.0143),
+        (5.9213, 6.4000),
+        (6.0093, 6.9000),
+        (6.1337, 7.2000),
+        (6.7092, 7.4400),
+        (7.2846, 7.5000),
+        (7.4233, 7.8000),
+        (7.9790, 8.6000),
+        (8.2927, 8.6143),
+        (9.0829, 9.5000),
+        (9.4639, 9.6154),
+        (9.8115, 10.0000),
+        (9.8344, 10.4000),
+        (10.0013, 10.4000),
+        (10.0778, 10.5000),
+        (10.1054, 10.5000),
+        (10.1435, 10.6000),
+        (10.4782, 10.6462),
+        (10.8866, 10.8000),
+        (11.0934, 11.1727),
+        (11.3266, 11.2867),
+        (11.4970, 11.4000),
+        (11.6024, 11.4750),
+        (11.6947, 11.6000),
+        (11.8932, 12.0636),
+        (12.0076, 12.3000),
+        (12.2947, 12.4150),
+        (12.7583, 12.4500),
+        (12.8756, 12.9000),
+        (12.9268, 12.9000),
+        (13.0042, 13.2000),
+        (13.2387, 13.2694),
+        (13.4620, 13.4400),
+        (13.5467, 13.5000),
+        (13.6016, 13.7375),
+        (13.9609, 13.9500),
+        (14.1414, 14.0250),
+        (14.2226, 14.0762),
+        (14.3178, 14.1273),
+        (14.3786, 14.1643),
+        (14.4421, 14.2182),
+        (14.4825, 14.3000),
+        (14.5063, 14.3750),
+        (14.5452, 14.4778),
+        (14.6359, 14.5850),
+        (14.7301, 14.6389),
+        (14.8846, 14.7906),
+        (15.0424, 14.9263),
+        (15.2159, 15.0944),
+        (15.3942, 15.1875),
+        (15.5380, 15.3300),
+        (15.8096, 15.5320),
+        (16.0262, 16.1000),
+        (16.0702, 16.1000),
+        (16.2738, 16.1267),
+        (16.4723, 16.3579),
+        (16.7156, 16.8000),
+        (17.1446, 17.0600),
+        (17.5478, 17.2000),
+        (17.6403, 17.2000),
+        (17.7603, 17.2000),
+        (17.8264, 17.6000),
+        (18.1258, 17.9750),
+        (18.5000, 18.2000),
+        (19.2000, 18.7000),
+        (20.0000, 19.2000),
+        (21.2000, 19.8000),
+        (22.5000, 20.0000),
     ];
 
     public static EstimatorResult Estimate(
@@ -365,17 +317,8 @@ internal static class AzusaEstimator
 
         var preOutputNumeric = Math.Clamp((calibratedNumeric ?? 0.0) + curveGapResidual, -2.0, 20.0);
         var outputNumeric = CalibrateAzusaOutputNumeric(preOutputNumeric);
-        var postCurveGapResidual = ComputePostOutputCurveGapResidualCorrection(
-            outputNumeric,
-            blendDetails,
-            anchorImbalance,
-            chordRate,
-            jackQ95,
-            primaryNumeric,
-            sunnyNumeric,
-            danielNumericForBlend);
-
-        var finalNumeric = Math.Clamp(outputNumeric + postCurveGapResidual, -2.0, 20.0);
+        var refCorrection = ComputeReferenceCorrection(outputNumeric, danielNumericForBlend, sunnyNumeric);
+        var finalNumeric = Math.Clamp(outputNumeric + refCorrection, -2.0, 20.0);
         var estDiff = NumericToRcLabel(finalNumeric);
 
         return new EstimatorResult
@@ -433,6 +376,8 @@ internal static class AzusaEstimator
         var greekIndex = Math.Clamp(baseValue - 11, 0, GreekByIndex.Length - 1);
         return GreekByIndex[greekIndex];
     }
+
+    internal static string NumericToRcLabelStatic(double numeric) => NumericToRcLabel(numeric);
 
     private static string NumericToRcLabel(double numeric)
     {
@@ -604,6 +549,7 @@ internal static class AzusaEstimator
         var staminaStates = new double[DecayWindowsMs.Length];
         var chordStates = new double[DecayWindowsMs.Length];
         var techStates = new double[DecayWindowsMs.Length];
+        var jackStates = new double[DecayWindowsMs.Length];
 
         var lastByColumn = new[] { -1e9, -1e9, -1e9, -1e9 };
         var lastByHand = new[] { -1e9, -1e9 };
@@ -618,6 +564,8 @@ internal static class AzusaEstimator
         var staminaSeries = new List<double>(taps.Count);
         var chordSeries = new List<double>(taps.Count);
         var techSeries = new List<double>(taps.Count);
+        var jackSeries = new List<double>(taps.Count);
+        var times = new List<double>(taps.Count);
 
         var chordNoteCount = 0;
         var cursor250 = 0;
@@ -671,9 +619,10 @@ internal static class AzusaEstimator
             var rowChord = Math.Max(0, note.RowSize - 1);
             var chord = Math.Pow(rowChord + 1, 1.22) - 1;
 
-            var speedInput = (0.54 * stream) + (0.28 * handStream) + (0.18 * jack);
+            var speedInput = (0.60 * stream) + (0.30 * handStream) + (0.10 * jack);
+            var jackInput = jack * (1 + (0.15 * chord));
             var staminaInput = (0.48 * (d500 / 11)) + (0.27 * (d250 / 15)) + (0.25 * stream);
-            var chordInput = chord * (1 + (0.22 * Math.Min(1.5, stream)));
+            var chordInput = chord * (1 + (0.10 * Math.Min(1.5, stream)));
             var techInput = (0.45 * rhythmChaos)
                 + (0.30 * movement)
                 + (0.25 * (rowChord > 0 ? 1 + (0.3 * rowChord) : 0));
@@ -686,21 +635,29 @@ internal static class AzusaEstimator
                 staminaStates[j] = (staminaStates[j] * decay) + staminaInput;
                 chordStates[j] = (chordStates[j] * decay) + chordInput;
                 techStates[j] = (techStates[j] * decay) + techInput;
+                jackStates[j] = (jackStates[j] * decay) + jackInput;
             }
 
             var speedSkill = SkillFromStates(speedStates);
             var staminaSkill = SkillFromStates(staminaStates);
             var chordSkill = SkillFromStates(chordStates);
             var techSkill = SkillFromStates(techStates);
+            var jackSkill = SkillFromStates(jackStates);
 
             const double p = 2.15;
+            const double swSpeed = 0.36;
+            const double swStamina = 0.24;
+            const double swChord = 0.12;
+            const double swTech = 0.16;
+            const double swJack = 0.12;
             var combined = Math.Pow(
                 (
-                    (0.38 * Math.Pow(Math.Max(speedSkill, 0.0), p))
-                    + (0.26 * Math.Pow(Math.Max(staminaSkill, 0.0), p))
-                    + (0.18 * Math.Pow(Math.Max(chordSkill, 0.0), p))
-                    + (0.18 * Math.Pow(Math.Max(techSkill, 0.0), p))
-                ) / (0.38 + 0.26 + 0.18 + 0.18),
+                    (swSpeed * Math.Pow(Math.Max(speedSkill, 0.0), p))
+                    + (swStamina * Math.Pow(Math.Max(staminaSkill, 0.0), p))
+                    + (swChord * Math.Pow(Math.Max(chordSkill, 0.0), p))
+                    + (swTech * Math.Pow(Math.Max(techSkill, 0.0), p))
+                    + (swJack * Math.Pow(Math.Max(jackSkill, 0.0), p))
+                ) / (swSpeed + swStamina + swChord + swTech + swJack),
                 1.0 / p);
 
             local.Add(combined);
@@ -708,6 +665,8 @@ internal static class AzusaEstimator
             staminaSeries.Add(staminaSkill);
             chordSeries.Add(chordSkill);
             techSeries.Add(techSkill);
+            jackSeries.Add(jackSkill);
+            times.Add(t);
 
             prevAny2 = prevAny1;
             prevAny1 = t;
@@ -723,9 +682,11 @@ internal static class AzusaEstimator
             staminaSeries.ToArray(),
             chordSeries.ToArray(),
             techSeries.ToArray(),
+            jackSeries.ToArray(),
             density250.ToArray(),
             density500.ToArray(),
             jackRawSeries.ToArray(),
+            times.ToArray(),
             columnCounts,
             chordNoteCount);
     }
@@ -756,36 +717,48 @@ internal static class AzusaEstimator
         var stamina = Summarize(curve.StaminaSeries);
         var chord = Summarize(curve.ChordSeries);
         var tech = Summarize(curve.TechSeries);
+        var jack = Summarize(curve.JackSeries);
 
         var density250 = PowerMean(curve.Density250, 1.18);
         var density500 = PowerMean(curve.Density500, 1.12);
-        var lengthBoost = Math.Log(1 + (noteCount / 140.0));
+        const double lengthRefNotes = 600;
+        const double lengthExponent = 0.22;
+        const double lengthCap = 3.5;
+        var lengthBoost = Math.Min(lengthCap, Math.Pow(Math.Max(noteCount, 1) / lengthRefNotes, lengthExponent));
 
         var peakBlend =
             (0.26 * speed.Q97)
-            + (0.24 * stamina.Q97)
-            + (0.18 * chord.Q97)
-            + (0.12 * tech.Q97)
-            + (0.07 * speed.Q90)
-            + (0.05 * stamina.Q90)
-            + (0.03 * chord.Q90)
-            + (0.02 * tech.Q90);
+            + (0.22 * stamina.Q97)
+            + (0.10 * chord.Q97)
+            + (0.10 * tech.Q97)
+            + (0.10 * jack.Q97)
+            + (0.06 * speed.Q90)
+            + (0.04 * stamina.Q90)
+            + (0.02 * chord.Q90)
+            + (0.02 * tech.Q90)
+            + (0.02 * jack.Q90);
 
         var sustainBlend =
-            (0.20 * speed.Q75)
-            + (0.18 * stamina.Q75)
-            + (0.11 * chord.Q75)
-            + (0.08 * tech.Q75)
-            + (0.12 * speed.TailMean)
-            + (0.10 * stamina.TailMean)
-            + (0.06 * chord.TailMean)
-            + (0.05 * tech.TailMean);
+            (0.18 * speed.Q75)
+            + (0.16 * stamina.Q75)
+            + (0.08 * chord.Q75)
+            + (0.06 * tech.Q75)
+            + (0.08 * jack.Q75)
+            + (0.10 * speed.TailMean)
+            + (0.08 * stamina.TailMean)
+            + (0.04 * chord.TailMean)
+            + (0.04 * tech.TailMean)
+            + (0.04 * jack.TailMean);
 
         var densityBlend = (0.14 * Math.Log(1 + density250)) + (0.22 * Math.Log(1 + density500));
-        var midBlend = (0.18 * speed.Q50) + (0.15 * stamina.Q50) + (0.10 * chord.Q50) + (0.08 * tech.Q50);
+        var midBlend =
+            (0.16 * speed.Q50) + (0.13 * stamina.Q50)
+            + (0.06 * chord.Q50) + (0.06 * tech.Q50) + (0.06 * jack.Q50);
 
-        var raw = (0.58 * peakBlend) + (0.24 * sustainBlend) + (0.10 * densityBlend) + (0.08 * midBlend) + (0.06 * lengthBoost);
-        var scaled = 0.82 + (0.41 * raw);
+        var raw =
+            (0.52 * peakBlend) + (0.26 * sustainBlend)
+            + (0.10 * densityBlend) + (0.08 * midBlend) + (0.04 * lengthBoost);
+        var scaled = 0.82 + (0.43 * raw);
 
         var maxColumn = curve.ColumnCounts.Max();
         var anchorImbalance = SafeDiv((maxColumn / Math.Max(noteCount, 1.0)) - 0.25, 0.75, 0.0);
@@ -793,24 +766,20 @@ internal static class AzusaEstimator
         var jackSorted = curve.JackRawSeries.OrderBy(static value => value).ToArray();
         var jackQ95 = QuantileFromSorted(jackSorted, 0.95);
 
-        var jackAnchorBoost = Clamp(
-            1.65
-            * Math.Max(0.0, anchorImbalance)
-            * Math.Max(0.0, 1 - (1.85 * chordRate))
-            * Math.Max(0.0, jackQ95 - 2.2),
+        // Chordjack interaction: chord density × jack density co-occurrence
+        var chordjackBoost = Clamp(
+            2.5
+            * Clamp((chordRate - 0.40) * 3.5, 0.0, 1.0)
+            * Clamp((jackQ95 - 1.25) * 2.8, 0.0, 1.0)
+            * Clamp(1 - (anchorImbalance * 8), 0.0, 1.0),
             0.0,
             2.2);
 
-        var lowJackBoost = Clamp(
-            1.1
-            * Clamp((12.2 - scaled) / 4.5, 0.0, 1.0)
-            * Math.Max(0.0, anchorImbalance - 0.08)
-            * Math.Max(0.0, jackQ95 - 1.7)
-            * (0.9 + (0.6 * Math.Max(0.0, 0.22 - chordRate))),
-            0.0,
-            1.35);
+        var totalTimeSec = Math.Max(1.0, (curve.Times[^1] - curve.Times[0]) / 1000.0);
+        var avgNPS = noteCount / totalTimeSec;
+        var midSpeedBonus = Clamp((avgNPS - 9) * 0.04, 0.0, 0.35) * Clamp((19 - avgNPS) * 0.25, 0.0, 1.0);
 
-        return Clamp(scaled + jackAnchorBoost + lowJackBoost, -2.0, 20.0);
+        return Clamp(scaled + chordjackBoost + midSpeedBonus, -2.0, 20.0);
     }
 
     private static BlendDetails ResolveRcBlendComponents(
@@ -878,12 +847,12 @@ internal static class AzusaEstimator
             if (anchorImbalance.HasValue && chordRate.HasValue && jackQ95.HasValue)
             {
                 var anchorLift = Clamp(
-                    0.96
+                    0.20
                     * Math.Max(0.0, jackQ95.Value - 2.08)
                     * Math.Max(0.0, 0.24 - chordRate.Value)
                     * Math.Max(0.0, anchorImbalance.Value - 0.10),
                     0.0,
-                    0.88);
+                    0.25);
 
                 value += anchorLift;
             }
@@ -1078,57 +1047,65 @@ internal static class AzusaEstimator
         return Clamp(residual, -1.2, 1.2);
     }
 
-    private static double ComputePostOutputCurveGapResidualCorrection(
-        double baseNumeric,
-        BlendDetails blendDetails,
-        double? anchorImbalance,
-        double? chordRate,
-        double? jackQ95,
-        double? primaryNumeric,
-        double? sunnyNumeric,
-        double? danielNumeric)
+    private static double ComputeReferenceCorrection(
+        double azusaEst,
+        double? danielNumeric,
+        double? sunnyNumeric)
     {
-        if (!double.IsFinite(baseNumeric))
+        if (!double.IsFinite(azusaEst))
         {
             return 0.0;
         }
 
-        var highGate = blendDetails.HighGate.HasValue && double.IsFinite(blendDetails.HighGate.Value)
-            ? Clamp(blendDetails.HighGate.Value, 0.0, 1.0)
-            : 0.0;
+        if (azusaEst < 10.0 || azusaEst > 17.5)
+        {
+            return 0.0;
+        }
 
-        var primary = primaryNumeric.HasValue && double.IsFinite(primaryNumeric.Value) ? primaryNumeric.Value : baseNumeric;
-        var sunny = sunnyNumeric.HasValue && double.IsFinite(sunnyNumeric.Value) ? sunnyNumeric.Value : baseNumeric;
-        var daniel = danielNumeric.HasValue && double.IsFinite(danielNumeric.Value) ? danielNumeric.Value : baseNumeric;
-        var anchor = anchorImbalance.HasValue && double.IsFinite(anchorImbalance.Value) ? anchorImbalance.Value : 0.0;
-        var chord = chordRate.HasValue && double.IsFinite(chordRate.Value) ? chordRate.Value : 0.0;
-        var jack = jackQ95.HasValue && double.IsFinite(jackQ95.Value) ? jackQ95.Value : baseNumeric;
+        var daniel = danielNumeric.HasValue && double.IsFinite(danielNumeric.Value) ? danielNumeric.Value : (double?)null;
+        var sunny = sunnyNumeric.HasValue && double.IsFinite(sunnyNumeric.Value) ? sunnyNumeric.Value : (double?)null;
 
-        var ds = daniel - sunny;
-        var sp = sunny - primary;
+        double gate;
+        double coeffD;
+        double coeffS;
 
-        var residual = 0.4 * (
-            0.979895
-            + (0.053556 * baseNumeric)
-            + (-1.050405 * Math.Max(0.0, 11 - baseNumeric))
-            + (0.942552 * Math.Max(0.0, 12.5 - baseNumeric))
-            + (0.048841 * Math.Max(0.0, 14 - baseNumeric))
-            + (-1.636218 * highGate)
-            + (0.956025 * highGate * Math.Max(0.0, 11 - baseNumeric))
-            + (-0.975188 * highGate * Math.Max(0.0, 12.5 - baseNumeric))
-            + (0.195107 * ds)
-            + (-0.064291 * sp)
-            + (-0.231542 * highGate * ds)
-            + (0.082201 * highGate * sp)
-            + (-0.634013 * anchor)
-            + (-0.490303 * chord)
-            + (-0.135176 * jack)
-            + (-0.992539 * anchor * jack)
-            + (-0.164219 * chord * jack)
-            + (-1.027392 * highGate * anchor)
-            + (0.961530 * highGate * chord));
+        if (azusaEst < 11.5)
+        {
+            gate = Clamp((azusaEst - 10.0) / 1.5, 0.0, 1.0);
+            coeffD = 0.10;
+            coeffS = 0.06;
+        }
+        else if (azusaEst < 12.5)
+        {
+            gate = 1.0;
+            coeffD = 0.20;
+            coeffS = 0.13;
+        }
+        else if (azusaEst < 16.0)
+        {
+            gate = 1.0;
+            coeffD = 0.40;
+            coeffS = 0.25;
+        }
+        else
+        {
+            gate = Clamp((17.5 - azusaEst) / 1.5, 0.0, 1.0);
+            coeffD = 0.28;
+            coeffS = 0.17;
+        }
 
-        return Clamp(residual, -1.0, 1.0);
+        var correction = 0.0;
+        if (daniel.HasValue)
+        {
+            correction += coeffD * (daniel.Value - azusaEst);
+        }
+
+        if (sunny.HasValue)
+        {
+            correction += coeffS * (sunny.Value - azusaEst);
+        }
+
+        return Clamp(correction * gate, -1.2, 1.2);
     }
 
     private sealed class TapNote
@@ -1170,9 +1147,11 @@ internal static class AzusaEstimator
         double[] StaminaSeries,
         double[] ChordSeries,
         double[] TechSeries,
+        double[] JackSeries,
         double[] Density250,
         double[] Density500,
         double[] JackRawSeries,
+        double[] Times,
         int[] ColumnCounts,
         int ChordNoteCount);
 
