@@ -37,6 +37,42 @@ public static class BeatmapAnalyzer
             throw new InvalidOperationException("Beatmap mode is not mania.");
         }
 
+        if (!GraphSupportedKeys.Contains(rawChart.ColumnCount))
+        {
+            return new AnalyzeResponse
+            {
+                Metadata = new CardMetadataOutput
+                {
+                    Title = rawChart.Metadata.Title,
+                    TitleUnicode = rawChart.Metadata.TitleUnicode,
+                    Artist = rawChart.Metadata.Artist,
+                    ArtistUnicode = rawChart.Metadata.ArtistUnicode,
+                    Creator = rawChart.Metadata.Creator,
+                    Version = rawChart.Metadata.Version,
+                    StatusText = FormatMetadataStatus(rawChart.Metadata),
+                },
+                Beatmap = new CardBeatmapOutput
+                {
+                    ColumnCount = rawChart.ColumnCount,
+                    LnRatio = rawChart.LnRatio,
+                },
+                Card = new CardOutput
+                {
+                    ContentBar = DefaultContentBar,
+                    ModeTag = ModeTagFromLnRatio(rawChart.LnRatio),
+                    LeftCapsule = new CardCapsuleOutput { Mode = "ReworkSR", Value = 0, DisplayValue = "-", Unit = "SR" },
+                    Difficulty = new CardDifficultyOutput
+                    {
+                        Caption = "Estimate Difficulty",
+                        Text = "Unsupported Keys",
+                        RawText = "Unsupported Keys",
+                        NumericDifficulty = null,
+                        Vibro = false,
+                    },
+                },
+            };
+        }
+
         var estimatorResult = RunMixedEstimator(rawChart, settings);
         if (!double.IsFinite(estimatorResult.Star))
         {

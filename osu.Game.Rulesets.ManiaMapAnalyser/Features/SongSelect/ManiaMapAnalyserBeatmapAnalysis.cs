@@ -60,7 +60,12 @@ internal static class ManiaMapAnalyserBeatmapAnalysis
 
         string outputJson = BeatmapAnalyzer.AnalyzeJsonToJson(inputJson, indented: false);
         AnalyzeResponse? output = JsonSerializer.Deserialize<AnalyzeResponse>(outputJson);
-        return normalizeSingleLine(output?.Card.Difficulty.RawText);
+        CardDifficultyOutput? difficulty = output?.Card.Difficulty;
+        string? difficultyText = difficulty?.RawText;
+        if (difficulty is { Text: "Unsupported Keys" })
+            difficultyText = difficulty.Text;
+
+        return normalizeSingleLine(difficultyText);
     }
 
     private static double resolveSpeedRate(IReadOnlyList<Mod> mods)
