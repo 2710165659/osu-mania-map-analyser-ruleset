@@ -1,7 +1,6 @@
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
-using osu.Framework.Localisation;
 using osu.Game.Graphics.UserInterfaceV2;
 using osu.Game.Overlays.Settings;
 using osu.Game.Rulesets.ManiaMapAnalyser.Configuration;
@@ -20,8 +19,6 @@ public sealed partial class ManiaMapAnalyserMainSection : RulesetSettingsSubsect
     private readonly Bindable<string> textColourHex = new();
     private readonly Bindable<string> backgroundColourHex = new();
     private readonly BindableFloat contentPadding = new();
-
-    protected override LocalisableString Header => ManiaMapAnalyserSettingsStrings.SettingsMenuHeader;
 
     public ManiaMapAnalyserMainSection(Ruleset ruleset)
         : base(ruleset)
